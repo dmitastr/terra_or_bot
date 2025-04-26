@@ -1,0 +1,5 @@
+arrow==0.17.0
+requests==2.32.3
+python-telegram-bot==20.4
+ydb
+emoji==2.14.1 
