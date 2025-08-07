@@ -1,6 +1,6 @@
 import logging
 from telegram.ext import (
-    CallbackContext, 
+    CallbackContext,
     CommandHandler,
     filters
 )
@@ -18,11 +18,14 @@ logger.setLevel(logging.INFO)
 
 
 async def mention_all_users(update: Update, context: CallbackContext) -> None:
+    if not update.effective_user or not update.effective_message or not update.effective_chat:
+        return
+
     requester_id = update.effective_user.id
     original_message_id = None
     if update.effective_message.reply_to_message:
         original_message_id = update.effective_message.reply_to_message.message_id
-    db = YDataBase(endpoint='REPORTS_ENDPOINT', database='REPORTS_DATABASE') 
+    db = YDataBase(endpoint='REPORTS_ENDPOINT', database='REPORTS_DATABASE')
     users_to_mention = db.get_fields_equal(
         table_name='gamemasters'
     )

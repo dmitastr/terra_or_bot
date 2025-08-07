@@ -3,7 +3,7 @@ import html
 import json
 import traceback
 from telegram.ext import (
-    CallbackContext, 
+    CallbackContext,
 )
 from telegram import (
     Update,
@@ -15,10 +15,13 @@ from common.config import DEV_USER_ID
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-async def error_handler(update: object, context: CallbackContext) -> None:
-    logger.error(msg="Exception while handling an update:", exc_info=context.error)
 
-    tb_list = traceback.format_exception(None, context.error, context.error.__traceback__)
+async def error_handler(update: object, context: CallbackContext) -> None:
+    logger.error(msg="Exception while handling an update:",
+                 exc_info=context.error)
+
+    tb_list = traceback.format_exception(
+        None, context.error, context.error.__traceback__)
     tb_string = ''.join(tb_list)
 
     update_str = update.to_dict() if isinstance(update, Update) else str(update)
@@ -32,7 +35,7 @@ async def error_handler(update: object, context: CallbackContext) -> None:
     )
 
     await context.bot.send_message(
-        chat_id=DEV_USER_ID, 
-        text=message[:100], 
+        chat_id=DEV_USER_ID,
+        text=message,
         parse_mode=ParseMode.HTML
     )
